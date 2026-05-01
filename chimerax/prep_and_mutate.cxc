@@ -1,0 +1,69 @@
+# ChimeraX structure preparation and mutagenesis template
+# For use with AlphaFold3 protein-DNA complex output
+# Replace YOURFILE.pdb with your actual AF3 output filename
+# Replace chain letters and residue numbers to match your system
+
+# Open and inspect the structure
+open YOURFILE.pdb
+color bfactor #1 palette alphafold
+info chains #1
+
+# Confirm chain layout matches expectation before proceeding
+# Typical layout for a homodimer-DNA complex:
+#   Chain A -- protein monomer 1
+#   Chain B -- protein monomer 2
+#   Chain C -- DNA sense strand
+#   Chain D -- DNA antisense strand
+
+# Clean the structure
+delete solvent
+delete :UNK
+
+# Verify key residues are present and positioned near DNA
+# Replace residue numbers below with your actual contact residues
+select :RES1,RES2,RES3
+show sel atoms
+
+# Save the wild type structure
+save WT/PROTEIN_WT_clean.pdb format pdb
+
+
+# Mutagenesis: substitute target residues with alanine
+# Replace chain letters and residue numbers to match your system
+# Run swapaa one residue at a time and confirm each before continuing
+
+swapaa ala #1/A:RES1
+swapaa ala #1/A:RES2
+swapaa ala #1/A:RES3
+
+# If the complex is a homodimer, apply the same substitutions to chain B
+swapaa ala #1/B:RES1
+swapaa ala #1/B:RES2
+swapaa ala #1/B:RES3
+
+# Verify mutations in the sequence panel before saving
+# Each target position should now show ALA
+select #1/A:RES1,RES2,RES3
+show sel atoms
+
+# Save the mutant structure
+save MUT/PROTEIN_MUT_clean.pdb format pdb
+
+
+# Notes:
+# swapaa can fail silently on residues near chain termini or in tightly packed regions.
+# Always verify in the sequence panel that the substitution applied correctly.
+# If a swap fails, rerun that single swapaa command individually and check again.
+#
+# After saving, check both PDB files for:
+#   - Correct TER records between chains
+#   - DNA chains ordered after protein chains (required by tleap)
+#   - No solvent or UNK residues remaining
+#
+# Before running tleap, strip the 5' phosphate atoms from the first residue
+# of each DNA chain if present (OP3, P, OP1, OP2 on residue 1 of chains C and D).
+# AF3 sometimes adds a 5' phosphate that is not included in tleap terminal templates.
+# Use the following to remove them in ChimeraX before saving:
+#
+#   delete #1/C:1@OP3,P,OP1,OP2
+#   delete #1/D:1@OP3,P,OP1,OP2

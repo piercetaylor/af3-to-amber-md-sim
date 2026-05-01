@@ -1,0 +1,15 @@
+source leaprc.protein.ff14SB
+source leaprc.DNA.OL21
+source leaprc.water.tip3p
+
+mol = loadpdb MUT/PROTEIN_MUT_H.pdb
+check mol
+
+solvateoct mol TIP3PBOX 12.0
+addions mol Na+ 0
+addions mol Na+ N_IONS
+addions mol Cl- N_IONS
+
+saveamberparm mol MUT/PROTEIN_MUT.prmtop MUT/PROTEIN_MUT.inpcrd
+savepdb mol MUT/PROTEIN_MUT_solvated.pdb
+quit

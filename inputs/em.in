@@ -1,0 +1,13 @@
+Energy minimization
+ &cntrl
+  imin=1,
+  maxcyc=10000,
+  ncyc=5000,
+  ntpr=500,
+  ntwx=0,
+  cut=10.0,
+  ntb=1,
+  ntr=1,
+  restraint_wt=10.0,
+  restraintmask='!:WAT,Na+,Cl-',
+ /

@@ -1,0 +1,12 @@
+*.prmtop
+*.inpcrd
+*.rst7
+*.nc
+*.out
+*_solvated.pdb
+*_H.pdb
+*_clean.pdb
+logs/
+WT/
+MUT/
+leap.log

@@ -1,0 +1,15 @@
+source leaprc.protein.ff14SB
+source leaprc.DNA.OL21
+source leaprc.water.tip3p
+
+mol = loadpdb WT/PROTEIN_WT_H.pdb
+check mol
+
+solvateoct mol TIP3PBOX 12.0
+addions mol Na+ 0
+addions mol Na+ N_IONS
+addions mol Cl- N_IONS
+
+saveamberparm mol WT/PROTEIN_WT.prmtop WT/PROTEIN_WT.inpcrd
+savepdb mol WT/PROTEIN_WT_solvated.pdb
+quit
